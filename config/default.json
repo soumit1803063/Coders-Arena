@@ -1,0 +1,4 @@
+{
+    "mongoURI":"mongodb+srv://soumit1803063:Kh5oCydgK5BWbrgE@cluster0.phfvx.mongodb.net/?retryWrites=true&w=majority",
+    "jwtSecret":"eyJhbGciOiJIUzI1NiJ9.eyJleHAiOjE2NTM0Njk4NTcsIkRldmVsb3Blck5hbWUiOiJTb3VtaXREYXMiLCJpYXQiOjE2NTM0Njk4NTd9.hsafephuIq-aFmciEWInfDKehEwOtkxveepYNReZc-A"
+}
