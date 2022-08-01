@@ -21,7 +21,7 @@ const NavbarComp = ({ user, logoutAction }) => {
               </Nav.Link>
             </Nav>
             <Nav>
-              {user === null ? (
+              {user === false ? (
                 <>
                   <Nav.Link as={NavLink} to="/login">
                     Login
@@ -49,7 +49,7 @@ const NavbarComp = ({ user, logoutAction }) => {
 };
 
 const mapStateToProps = (state) => ({
-  user: state.auth.user,
+  user: state.auth.isAuthenticated,
 });
 
 export default connect(mapStateToProps, { logoutAction })(NavbarComp);

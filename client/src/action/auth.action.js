@@ -7,6 +7,7 @@ import {
   LOGOUT_SUCCESS,
 } from "../constant/types";
 import { baseUrl } from "../constant/url";
+import setAuthToken from "../Utils/setToken";
 
 //registerAction starts
 export const registerAction = (name, email, password) => async (dispatch) => {
@@ -78,8 +79,12 @@ export const getAuthUserAction = () => async (dispatch) => {
 };
 //getAuthUserAction ends
 
+//logoutAction starts
 export const logoutAction = () => (dispatch) => {
+  localStorage.removeItem("ca-token");
+  setAuthToken("");
   dispatch({
     type: LOGOUT_SUCCESS,
   });
 };
+//logoutAction ends

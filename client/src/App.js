@@ -11,6 +11,7 @@ import setAuthToken from "./Utils/setToken";
 import { getAuthUserAction } from "./action/auth.action";
 import { connect } from "react-redux";
 import DashboardPage from "./views/DashboardPage/DashboardPage";
+import ProblemPage from "./views/ProblemPage/ProblemPage";
 
 function App({ getAuthUserAction }) {
   useEffect(() => {
@@ -30,6 +31,7 @@ function App({ getAuthUserAction }) {
         <Route path="/*" element={<PrivateOutlet />}>
           <>
             <Route path="dashboard" element={<DashboardPage />} />
+            <Route path="group/:id" element={<ProblemPage></ProblemPage>} />
           </>
         </Route>
       </Routes>

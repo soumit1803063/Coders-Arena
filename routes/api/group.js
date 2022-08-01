@@ -30,9 +30,10 @@ router.get("/", auth, async (req, res) => {
       { group_id: 1, _id: 0 }
     ); //Get all the groups ,which current user is the member in.
     if (!all_groups) {
-      return res.status(400).json({ msg: "There is no profile for this user" });
+      return res.status(400).json({ msg: "There is no group for this user" });
     }
-    res.json(all_groups);
+    const groups = await Group.find({ id: { $in: all_groups } });
+    res.json(groups.reverse());
   } catch (err) {
     console.error(err);
     res.status(500).send("Server Error!");
@@ -76,11 +77,12 @@ router.post(
       const { name, description } = req.body;
       const admin = req.user.id;
       const editor = [req.user.id];
+      // console.log(req.file);
       //'Creating Group-model instance' section starts
       group = new Group({
         name,
         description,
-        file_name,
+        image: req.file.filename,
         admin,
         editor,
       });

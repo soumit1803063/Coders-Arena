@@ -51,10 +51,11 @@ app.listen(PORT, () => {
 //'initialization' section end
 
 //'Define Routes' section start
+
+app.use("/image", express.static("./uploads"));
 app.get("/", (req, res) => {
   res.send("Api running.");
 });
-app.use("/image", express.static("./uploads"));
 app.use("/api/user", require("./routes/api/user"));
 app.use("/api/auth", require("./routes/api/auth"));
 app.use("/api/group", require("./routes/api/group"));

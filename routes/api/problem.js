@@ -40,12 +40,12 @@ const upload = multer({
 //@route    GET api/problem/all
 //desc      Get all the problems from a specific group.
 //access    private (User authentication required)
-router.get("/all", auth, async (req, res) => {
+router.get("/all/:id", auth, async (req, res) => {
   try {
     //'Check if current user is the member of the requested group' section starts
     const isMember = await Member.findOne({
       user_id: req.user.id,
-      group_id: req.body.group_id,
+      group_id: req.params.id,
       status: true,
     });
 
@@ -56,7 +56,7 @@ router.get("/all", auth, async (req, res) => {
 
     //'Get the problems with the specifiq tags from the specifiq group' section starts
     const problems = await Problem.find({
-      group_id: req.body.group_id,
+      group_id: req.params.id,
     });
     //'Get the problems with the specifiq tags from the specifiq group' section ends
 
@@ -169,25 +169,25 @@ router.put("/", auth, upload, async (req, res) => {
     //'Check if the current user is the admin or editor  ' section starts
     const isAdmin = await Group.findOne({
       _id: problem.group_id,
-      $or:[{admin:req.user.id},{editor: { $in: [req.user.id] }}]
+      $or: [{ admin: req.user.id }, { editor: { $in: [req.user.id] } }],
     });
     //'check if the current user is the admin or editor' section ends
 
- 
-    const isValid = (isAdmin!=null || problem.sender_id==req.user.id);
-     
+    const isValid = isAdmin != null || problem.sender_id == req.user.id;
+
     if (!isValid) {
       return res.status(400).json({ msg: "Access denied!" });
     }
 
     //'Update a problem' section starts
     const ret = await Problem.findOneAndUpdate(
-      { _id:problem._id},
-      { name:req.body.name,
-        link:req.body.link,
-        description:req.body.description,
-        image:file_name,
-        tag:req.body.tag
+      { _id: problem._id },
+      {
+        name: req.body.name,
+        link: req.body.link,
+        description: req.body.description,
+        image: file_name,
+        tag: req.body.tag,
       },
       { new: true }
     );
@@ -196,9 +196,7 @@ router.put("/", auth, upload, async (req, res) => {
       _id: req.body.problem_id,
     });
 
-    return res.status(200).json({ msg: "Problem Updated.",info:problem1 });
-    
-
+    return res.status(200).json({ msg: "Problem Updated.", info: problem1 });
   } catch (err) {
     console.error(err);
     return res.status(500).send("Server Error!");
@@ -222,20 +220,19 @@ router.delete("/", auth, async (req, res) => {
     //'Check if the current user is the admin or editor  ' section starts
     const isAdmin = await Group.findOne({
       _id: problem.group_id,
-      $or:[{admin:req.user.id},{editor: { $in: [req.user.id] }}]
+      $or: [{ admin: req.user.id }, { editor: { $in: [req.user.id] } }],
     });
     //'check if the current user is the admin or editor' section ends
 
- 
-    const isValid = (isAdmin!=null || problem.sender_id==req.user.id);
-     
+    const isValid = isAdmin != null || problem.sender_id == req.user.id;
+
     if (!isValid) {
       return res.status(400).json({ msg: "Access denied!" });
     }
-   
+
     //'Delete the problem' section starts
     await Problem.deleteMany({
-      _id: problem._id
+      _id: problem._id,
     });
 
     //'Delete the problem' section ends

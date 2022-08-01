@@ -1,22 +1,52 @@
-import React from "react";
+import React, { useEffect } from "react";
 import styles from "./GroupList.module.css";
-import { Card, Button } from "react-bootstrap";
-const GroupList = () => {
+import { Card, Button, Container, Col, Row, Spinner } from "react-bootstrap";
+import { getGroupsAction } from "../../action/group.action";
+import { connect } from "react-redux";
+import { baseUrl } from "../../constant/url";
+import { useNavigate } from "react-router-dom";
+//
+//
+const GroupList = ({ getGroupsAction, groups }) => {
+  useEffect(() => {
+    getGroupsAction();
+  }, []);
+
+  const navigate = useNavigate();
   return (
-    <div>
-      <Card style={{ width: "18rem" }}>
-        <Card.Img variant="top" src="holder.js/100px180" />
-        <Card.Body>
-          <Card.Title>Card Title</Card.Title>
-          <Card.Text>
-            Some quick example text to build on the card title and make up the
-            bulk of the card's content.
-          </Card.Text>
-          <Button variant="primary">Go somewhere</Button>
-        </Card.Body>
-      </Card>
-    </div>
+    <Container>
+      <Row>
+        {groups === null ? (
+          <Spinner animation="grow" variant="dark"></Spinner>
+        ) : (
+          groups.reverse().map((item) => (
+            <Col md={3}>
+              <Card className="py-3">
+                <Card.Img
+                  variant="top"
+                  src={`${baseUrl}/image/${item.image}`}
+                />
+                <Card.Body>
+                  <Card.Title>{item.name}</Card.Title>
+                  <Card.Text>{item.description}</Card.Text>
+                  <Button
+                    variant="primary"
+                    onClick={() => navigate(`/group/${item._id}`)}
+                  >
+                    View Group
+                  </Button>
+                </Card.Body>
+              </Card>
+            </Col>
+          ))
+        )}
+      </Row>
+    </Container>
   );
 };
 
-export default GroupList;
+const mapStatetoProps = (state) => ({
+  groups: state.group.groups,
+});
+
+export default connect(mapStatetoProps, { getGroupsAction })(GroupList);
