@@ -34,7 +34,7 @@ router.post(
   ],
   async (req, res) => {
     const { name, email, password } = req.body;
-    console.log(name, "\n", email, "\n", password);
+
     //'name,email and password validation' section starts
     const errors = validationResult(req);
     if (!errors.isEmpty()) {

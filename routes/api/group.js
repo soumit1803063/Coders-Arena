@@ -15,6 +15,7 @@ const auth = require("../../middleware/auth");
 const User = require("../../models/User");
 const Group = require("../../models/Group");
 const Member = require("../../models/Member");
+const e = require("express");
 //'Developer-defined modules' section end
 
 // 'Required modules' section end.
@@ -29,10 +30,17 @@ router.get("/", auth, async (req, res) => {
       { user_id: req.user.id, status: true },
       { group_id: 1, _id: 0 }
     ); //Get all the groups ,which current user is the member in.
-    if (!all_groups) {
+
+    if (all_groups.length === 0) {
       return res.status(400).json({ msg: "There is no group for this user" });
     }
-    const groups = await Group.find({ id: { $in: all_groups } });
+    let group_ids_array = [];
+
+    all_groups.forEach((element) => {
+      group_ids_array.push(element.group_id);
+    });
+    console.log(group_ids_array);
+    const groups = await Group.find({ _id: { $in: group_ids_array } });
     res.json(groups.reverse());
   } catch (err) {
     console.error(err);

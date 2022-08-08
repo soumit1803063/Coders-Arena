@@ -1,11 +1,6 @@
 import axios from "axios";
 import { toast } from "react-toastify";
-import {
-  CREATE_GROUP,
-  GET_GROUPS_OF_AUTH_USER_FAIL,
-  GET_GROUPS_OF_AUTH_USER_SUCCESS,
-  GET_PROBLEM_ALL,
-} from "../constant/types";
+import { CREATE_PROBLEM, GET_PROBLEM_ALL } from "../constant/types";
 import { baseUrl } from "../constant/url";
 
 //getProblemAllAction starts
@@ -28,27 +23,30 @@ export const getProblemsAllAction = (id) => async (dispatch) => {
 
 //createProblem Action starts
 export const createProblemAction =
-  (link, description, image, group_id, tags, name) => async (dispatch) => {
+  (name, link, description, image, tags, id) => async (dispatch) => {
     const data = new FormData();
     data.append("link", link);
     data.append("name", name);
     if (description) data.append("description", description);
     if (image) data.append("problemImage", image);
-    data.append("group_id", group_id);
+    data.append("group_id", id);
 
-    tags.split(",");
-    tags.forEach((e) => {
-      data.append("tag[]", e);
-    });
+    console.log(tags);
+
+    for (let i = 0; i < tags.length; i++) {
+      data.append(`tag[${i}]`, tags[i]);
+    }
+
     try {
       const config = {
         headers: {
           "Content-Type": "multipart/form-data",
         },
       };
-      const res = await axios.post(`${baseUrl}/api/group`, data, config);
+      console.log(data[0]);
+      const res = await axios.post(`${baseUrl}/api/problem`, data, config);
       dispatch({
-        type: CREATE_GROUP,
+        type: CREATE_PROBLEM,
       });
 
       dispatch(createProblemAction());

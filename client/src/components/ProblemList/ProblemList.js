@@ -13,7 +13,9 @@ import { useParams } from "react-router-dom";
 import { connect } from "react-redux";
 
 import { getProblemsAllAction } from "../../action/problem.action";
-
+//
+//
+//problem list
 const ProblemList = ({ getProblemsAllAction, problems }) => {
   const { id } = useParams();
   useEffect(() => {

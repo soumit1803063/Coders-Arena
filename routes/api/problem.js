@@ -127,7 +127,7 @@ router.post("/", auth, upload, async (req, res) => {
     const tag = req.body.tag;
     const sender_id = req.user.id;
     const group_id = req.body.group_id;
-    problem = new Problem({
+    let problem = new Problem({
       name,
       link,
       description,
