@@ -25,8 +25,8 @@ const PostComment = ({ createCommentAction }) => {
   //button onsubmit
   const onSubmit = async (e) => {
     e.preventDefault();
-    if (commentText.replace(/\s/g, "") === "") {
-      toast.error("Text is required!");
+    if (commentText.replace(/\s/g, "") === "" && commentImage == null) {
+      toast.error("Empty comment can not be posted!");
       return;
     }
     console.log(problem_id);

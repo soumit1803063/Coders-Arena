@@ -1,7 +1,24 @@
 import axios from "axios";
 import { toast } from "react-toastify";
-import { CREATE_COMMENT } from "../constant/types";
+import { CREATE_COMMENT, GET_COMMENTS } from "../constant/types";
 import { baseUrl } from "../constant/url";
+//get all comments of a problem
+
+export const getCommentsAction = (problem_id) => async (dispatch) => {
+  try {
+    const res = await axios.get(`${baseUrl}/api/comment/${problem_id}`);
+    dispatch({
+      type: GET_COMMENTS,
+      payload: res.data,
+    });
+
+    return true;
+  } catch (error) {
+    console.log(error);
+
+    return false;
+  }
+};
 
 //createComment Action
 export const createCommentAction =

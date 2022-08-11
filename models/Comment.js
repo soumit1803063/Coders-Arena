@@ -15,7 +15,7 @@ const mongoose = require("mongoose");
 const CommentSchema = mongoose.Schema({
   commentText: {
     type: String,
-    required: true,
+    required: false,
   },
   commentImage: {
     type: String,

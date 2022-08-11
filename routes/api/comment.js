@@ -6,12 +6,11 @@ const crypto = require("crypto");
 const mongoose = require("mongoose");
 const multer = require("multer");
 const router = express.Router();
-const { check, validationResult } = require("express-validator");
+const { check, validationResult, body } = require("express-validator");
 //'Downloaded modules' section end
 
 //'Developer-defined modules' section start
 const auth = require("../../middleware/auth");
-const User = require("../../models/User");
 const Group = require("../../models/Group");
 const Member = require("../../models/Member");
 const Problem = require("../../models/Problem");
@@ -41,11 +40,11 @@ const upload = multer({
 //@route    GET api/comment
 //desc      Get all the comments of a problem.
 //access    private (User authentication required)
-router.get("/", auth, async (req, res) => {
+router.get("/:problem_id", auth, async (req, res) => {
   try {
     //'Check if the problem exits or not' section starts
     problem = await Problem.findOne({
-      _id: req.body.problem_id,
+      _id: req.params.problem_id,
     });
     //'Check if the problem exits or not' section ends
     if (!problem) {
@@ -65,7 +64,7 @@ router.get("/", auth, async (req, res) => {
     }
 
     const comment = await Comment.find({
-      problem_id: req.body.problem_id,
+      problem_id: req.params.problem_id,
     });
     return res.json(comment);
   } catch (err) {
@@ -99,7 +98,6 @@ router.post("/", upload, auth, async (req, res) => {
     if (!isMember) {
       return res.status(400).json({ msg: "Access denied to this group." });
     }
-
     //'Creating Problem-model instance' section starts
 
     const commentText = req.body.commentText;
