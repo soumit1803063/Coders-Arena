@@ -1,6 +1,10 @@
 import axios from "axios";
 import { toast } from "react-toastify";
-import { CREATE_PROBLEM, GET_PROBLEM_ALL } from "../constant/types";
+import {
+  CREATE_PROBLEM,
+  GET_PROBLEM_ALL,
+  GET_SINGLE_PROBLEM,
+} from "../constant/types";
 import { baseUrl } from "../constant/url";
 
 //getProblemAllAction starts
@@ -21,6 +25,33 @@ export const getProblemsAllAction = (id) => async (dispatch) => {
 };
 //getpROBLEMallAction ends
 
+//get a single problem
+export const getSingleProblemAction =
+  (group_id, problem_id) => async (dispatch) => {
+    try {
+      const config = {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      };
+      const res = await axios.post(
+        `${baseUrl}/api/problem/single`,
+        JSON.stringify({ group_id, problem_id }),
+        config
+      );
+      dispatch({
+        type: GET_SINGLE_PROBLEM,
+        payload: res.data,
+      });
+
+      return true;
+    } catch (error) {
+      console.log(error);
+
+      return false;
+    }
+  };
+//
 //createProblem Action starts
 export const createProblemAction =
   (name, link, description, image, tags, id) => async (dispatch) => {

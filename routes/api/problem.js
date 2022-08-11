@@ -68,6 +68,40 @@ router.get("/all/:id", auth, async (req, res) => {
 });
 
 //'Routes' section
+//@route    post api/problem/all
+//desc      Get a specific problem
+//access    private (User authentication required)
+router.post("/single", auth, async (req, res) => {
+  try {
+    //'Check if current user is the member of the requested group' section starts
+    const isMember = await Member.findOne({
+      sender_id: req.user.id,
+      group_id: req.body.group_id,
+      status: true,
+    });
+
+    //'Check if current user is the member of the requested group' section ends
+    if (!isMember) {
+      return res.status(400).json({ msg: "Access denied to this group." });
+    }
+
+    //'Get the problem' section starts
+    const problem_output = await Problem.findOne({
+      _id: req.body.problem_id,
+    });
+    //'Get the problem' section ends
+    if (!problem_output) {
+      return res.status(400).json({ msg: "This problem is not found" });
+    }
+
+    return res.json(problem_output);
+  } catch (err) {
+    console.error(err);
+    return res.status(500).send("Server Error!");
+  }
+});
+
+//'Routes' section
 //@route    GET api/problem
 //desc      Get all the problems with the specific tags from the specific group.
 //access    private (User authentication required)

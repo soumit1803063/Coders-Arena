@@ -11,6 +11,7 @@ import setAuthToken from "./Utils/setToken";
 import { getAuthUserAction } from "./action/auth.action";
 import { connect } from "react-redux";
 import DashboardPage from "./views/DashboardPage/DashboardPage";
+import SingleProblemPage from "./views/SingleProblemPage/SingleProblemPage";
 import ProblemPage from "./views/ProblemPage/ProblemPage";
 
 function App({ getAuthUserAction }) {
@@ -32,6 +33,10 @@ function App({ getAuthUserAction }) {
           <>
             <Route path="dashboard" element={<DashboardPage />} />
             <Route path="group/:id" element={<ProblemPage></ProblemPage>} />
+            <Route
+              path="problem/single/:group_id/:problem_id"
+              element={<SingleProblemPage></SingleProblemPage>}
+            />
           </>
         </Route>
       </Routes>

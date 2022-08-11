@@ -1,6 +1,7 @@
 import {
   GET_GROUPS_OF_AUTH_USER_SUCCESS,
   GET_PROBLEM_ALL,
+  GET_SINGLE_PROBLEM,
 } from "../constant/types";
 
 const initialState = {
@@ -16,6 +17,11 @@ const problemReducer = (state = initialState, action) => {
       return {
         ...state,
         problems: payload,
+      };
+    case GET_SINGLE_PROBLEM:
+      return {
+        ...state,
+        selected_problem: payload,
       };
     default:
       return state;

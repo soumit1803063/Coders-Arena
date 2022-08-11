@@ -19,8 +19,8 @@ const GroupList = ({ getGroupsAction, groups }) => {
         {groups === null ? (
           <Spinner animation="grow" variant="dark"></Spinner>
         ) : (
-          groups.reverse().map((item) => (
-            <Col md={3}>
+          groups.reverse().map((item, i) => (
+            <Col md={3} key={i}>
               <Card className="py-3">
                 <Card.Img
                   variant="top"

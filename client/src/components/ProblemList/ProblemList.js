@@ -8,7 +8,7 @@ import {
   ListGroup,
   Badge,
 } from "react-bootstrap";
-import { useParams } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 
 import { connect } from "react-redux";
 
@@ -22,19 +22,24 @@ const ProblemList = ({ getProblemsAllAction, problems }) => {
     if (id) {
       getProblemsAllAction(id);
     }
-  }, []);
+  }, [id]);
 
   return (
     <Container>
       {problems === null ? (
         <Spinner animation="grow" variant="dark"></Spinner>
       ) : problems.length === 0 ? (
-        <h1>No problem found</h1>
+        <h1>No problem found!</h1>
       ) : (
         <ListGroup>
           {problems.map((item, k) => (
             <ListGroup.Item key={k}>
-              <span className="d-block  text-primary pt-2">{item.name}</span>
+              <Link
+                to={`/problem/single/${id}/${item._id}`}
+                className="d-block  text-primary pt-2"
+              >
+                {item.name}
+              </Link>
               <span className="d-block pb-1 ">
                 {item.tag.map((t, i) => (
                   <Badge key={i} className="mx-1">
