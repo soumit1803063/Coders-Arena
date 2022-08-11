@@ -24,6 +24,7 @@ const GroupList = ({ getGroupsAction, groups }) => {
               <Card className="py-3">
                 <Card.Img
                   variant="top"
+                  height={200}
                   src={`${baseUrl}/image/${item.image}`}
                 />
                 <Card.Body>

@@ -1,8 +1,4 @@
-import {
-  GET_GROUPS_OF_AUTH_USER_SUCCESS,
-  GET_PROBLEM_ALL,
-  GET_SINGLE_PROBLEM,
-} from "../constant/types";
+import { GET_PROBLEM_ALL, GET_SINGLE_PROBLEM } from "../constant/types";
 
 const initialState = {
   problems: null,

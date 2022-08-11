@@ -29,6 +29,7 @@ const PostComment = ({ createCommentAction }) => {
       toast.error("Text is required!");
       return;
     }
+    console.log(problem_id);
     let check = await createCommentAction(
       commentText,
       commentImage,

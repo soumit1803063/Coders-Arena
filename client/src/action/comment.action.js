@@ -10,7 +10,7 @@ export const createCommentAction =
     data.append("commentText", commentText);
     if (commentImage) data.append("commentImage", commentImage);
     data.append("problem_id", problem_id);
-    console.log("data--->", problem_id);
+
     try {
       const config = {
         headers: {
@@ -21,8 +21,6 @@ export const createCommentAction =
       dispatch({
         type: CREATE_COMMENT,
       });
-
-      dispatch(createCommentAction());
 
       return true;
     } catch (error) {
