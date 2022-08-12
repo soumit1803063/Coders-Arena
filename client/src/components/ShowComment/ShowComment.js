@@ -41,13 +41,13 @@ const ShowComment = ({ getCommentsAction, comments }) => {
         <ListGroup>
           <ScrollArea style={{ height: 500 }}>
             <div>
-              {comments.map((item, k) => (
+              {comments[0].map((item, k) => (
                 <ListGroup.Item key={k}>
                   <Card>
                     <Card.Header>
                       <Row>
                         <Col md={7}>
-                          <b>{item.sender_id}</b>
+                          <b>{comments[1][0][item.sender_id]}</b>
                         </Col>
                         <Col md={5}>
                           <Moment format="MMMM Do YYYY, h:mm:ss a">

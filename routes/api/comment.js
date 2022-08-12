@@ -66,7 +66,22 @@ router.get("/:problem_id", auth, async (req, res) => {
     const comment = await Comment.find({
       problem_id: req.params.problem_id,
     });
-    return res.json(comment);
+
+    let sender_ids_array = [];
+
+    comment.forEach((element) => {
+      sender_ids_array.push(element.sender_id);
+    });
+    const senders = await User.find({ _id: { $in: sender_ids_array } });
+
+    let senders_id_name = {};
+    senders.forEach((element) => {
+      let user_id = element.id;
+      let user_name = element.name;
+      senders_id_name[user_id] = user_name;
+    });
+
+    return res.json([comment, [senders_id_name]]);
   } catch (err) {
     console.error(err);
     return res.status(500).send("Server Error!");

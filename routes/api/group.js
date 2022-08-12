@@ -39,7 +39,7 @@ router.get("/", auth, async (req, res) => {
     all_groups.forEach((element) => {
       group_ids_array.push(element.group_id);
     });
-    console.log(group_ids_array);
+
     const groups = await Group.find({ _id: { $in: group_ids_array } });
     res.json(groups.reverse());
   } catch (err) {

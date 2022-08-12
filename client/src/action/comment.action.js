@@ -39,6 +39,7 @@ export const createCommentAction =
         type: CREATE_COMMENT,
       });
 
+      dispatch(getCommentsAction(problem_id));
       return true;
     } catch (error) {
       console.log(error);
