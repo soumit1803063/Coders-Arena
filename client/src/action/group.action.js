@@ -4,6 +4,7 @@ import {
   CREATE_GROUP,
   GET_GROUPS_OF_AUTH_USER_FAIL,
   GET_GROUPS_OF_AUTH_USER_SUCCESS,
+  GET_SEARCED_GROUPS,
 } from "../constant/types";
 import { baseUrl } from "../constant/url";
 
@@ -54,3 +55,30 @@ export const createGroupAction =
       return false;
     }
   };
+
+//ShowsearchGroupAction
+
+export const ShowsearchGroupAction = (groupName) => async (dispatch) => {
+  console.log("The Group Name: ", groupName);
+  try {
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    };
+    const res = await axios.get(
+      `${baseUrl}/api/group/search/${groupName}`,
+      config
+    );
+    dispatch({
+      type: GET_SEARCED_GROUPS,
+    });
+
+    console.log("responsed groups:", res.data);
+    return true;
+  } catch (error) {
+    console.log(error);
+    toast.error("Error!");
+    return false;
+  }
+};

@@ -22,6 +22,23 @@ const e = require("express");
 
 //'Routes' section
 //@route    GET api/group
+//desc      search group by group name.
+//access    private (User authentication required)
+router.get("/search/:group_name", auth, async (req, res) => {
+  try {
+    const search_name = req.params.group_name;
+    const groups = await Group.find({
+      name: { $regex: search_name, $options: "i" },
+    });
+    res.json(groups);
+  } catch (err) {
+    console.error(err);
+    res.status(500).send("Server Error!");
+  }
+});
+
+//'Routes' section
+//@route    GET api/group
 //desc      get all the group of the currently logged-in user.
 //access    private (User authentication required)
 router.get("/", auth, async (req, res) => {

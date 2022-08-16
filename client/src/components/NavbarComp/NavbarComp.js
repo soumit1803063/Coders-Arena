@@ -5,6 +5,7 @@ import { Container, Navbar, Nav, NavDropdown } from "react-bootstrap";
 import { NavLink } from "react-router-dom";
 import { connect } from "react-redux";
 import { logoutAction } from "../../action/auth.action";
+import SearchGroup from "../SearchGroup/SearchGroup";
 const NavbarComp = ({ user, logoutAction }) => {
   return (
     <div>
@@ -28,6 +29,7 @@ const NavbarComp = ({ user, logoutAction }) => {
                 </>
               ) : (
                 <>
+                  <SearchGroup></SearchGroup>
                   <Nav.Link as={NavLink} to="/dashboard">
                     Dashboard
                   </Nav.Link>

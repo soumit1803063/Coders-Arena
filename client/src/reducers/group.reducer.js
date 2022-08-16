@@ -1,7 +1,11 @@
-import { GET_GROUPS_OF_AUTH_USER_SUCCESS } from "../constant/types";
+import {
+  GET_GROUPS_OF_AUTH_USER_SUCCESS,
+  GET_SEARCED_GROUPS,
+} from "../constant/types";
 
 const initialState = {
   groups: null,
+  searched_groups: null,
 };
 
 const groupReducer = (state = initialState, action) => {
@@ -13,6 +17,12 @@ const groupReducer = (state = initialState, action) => {
         ...state,
         groups: payload,
       };
+    case GET_SEARCED_GROUPS:
+      return {
+        ...state,
+        groupsearched_groups: payload,
+      };
+
     default:
       return state;
   }
