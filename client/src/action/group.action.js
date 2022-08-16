@@ -4,11 +4,11 @@ import {
   CREATE_GROUP,
   GET_GROUPS_OF_AUTH_USER_FAIL,
   GET_GROUPS_OF_AUTH_USER_SUCCESS,
-  GET_SEARCED_GROUPS,
+  GET_SEARCHED_GROUPS,
 } from "../constant/types";
 import { baseUrl } from "../constant/url";
 
-//getAuthUserAction starts
+//getGroups starts
 export const getGroupsAction = () => async (dispatch) => {
   try {
     const res = await axios.get(`${baseUrl}/api/group`);
@@ -26,7 +26,7 @@ export const getGroupsAction = () => async (dispatch) => {
     return false;
   }
 };
-//getAuthUserAction ends
+//getGroups ends
 
 //createGroup Action starts
 export const createGroupAction =
@@ -59,7 +59,6 @@ export const createGroupAction =
 //ShowsearchGroupAction
 
 export const ShowsearchGroupAction = (groupName) => async (dispatch) => {
-  console.log("The Group Name: ", groupName);
   try {
     const config = {
       headers: {
@@ -71,10 +70,10 @@ export const ShowsearchGroupAction = (groupName) => async (dispatch) => {
       config
     );
     dispatch({
-      type: GET_SEARCED_GROUPS,
+      type: GET_SEARCHED_GROUPS,
+      payload: res.data,
     });
 
-    console.log("responsed groups:", res.data);
     return true;
   } catch (error) {
     console.log(error);

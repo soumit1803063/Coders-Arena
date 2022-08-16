@@ -1,6 +1,6 @@
 import {
   GET_GROUPS_OF_AUTH_USER_SUCCESS,
-  GET_SEARCED_GROUPS,
+  GET_SEARCHED_GROUPS,
 } from "../constant/types";
 
 const initialState = {
@@ -17,10 +17,10 @@ const groupReducer = (state = initialState, action) => {
         ...state,
         groups: payload,
       };
-    case GET_SEARCED_GROUPS:
+    case GET_SEARCHED_GROUPS:
       return {
         ...state,
-        groupsearched_groups: payload,
+        searched_groups: payload,
       };
 
     default:
