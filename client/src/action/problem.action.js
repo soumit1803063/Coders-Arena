@@ -79,8 +79,9 @@ export const createProblemAction =
       dispatch({
         type: CREATE_PROBLEM,
       });
-
+      dispatch(getProblemsAllAction(id));
       dispatch(createProblemAction());
+
       toast.success("Problem Posted.");
       return true;
     } catch (error) {

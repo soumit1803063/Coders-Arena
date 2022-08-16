@@ -12,7 +12,7 @@ import { getAuthUserAction } from "./action/auth.action";
 import { connect } from "react-redux";
 import DashboardPage from "./views/DashboardPage/DashboardPage";
 import SingleProblemPage from "./views/SingleProblemPage.js/SingleProblemPage";
-import ProblemPage from "./views/ProblemPage/ProblemPage";
+import SingleGroupView from "./views/SingleGroupView/SingleGroupView";
 import SearchedGroupPage from "./views/SearchedGroupsPage/SearchedGroupPage";
 
 function App({ getAuthUserAction }) {
@@ -33,7 +33,10 @@ function App({ getAuthUserAction }) {
         <Route path="/*" element={<PrivateOutlet />}>
           <>
             <Route path="dashboard" element={<DashboardPage />} />
-            <Route path="group/:id" element={<ProblemPage></ProblemPage>} />
+            <Route
+              path="group/:id"
+              element={<SingleGroupView></SingleGroupView>}
+            />
             <Route
               path="group/search/:groupName"
               element={<SearchedGroupPage></SearchedGroupPage>}

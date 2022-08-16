@@ -7,17 +7,20 @@ import { baseUrl } from "../../constant/url";
 import { useNavigate } from "react-router-dom";
 //
 //
-const GroupList = ({ getGroupsAction, groups }) => {
+const GroupList = ({ getGroupsAction, groups, user }) => {
   useEffect(() => {
     getGroupsAction();
-  }, []);
+  }, [user]);
 
   const navigate = useNavigate();
+
   return (
     <Container>
       <Row>
         {groups === null ? (
           <Spinner animation="grow" variant="dark"></Spinner>
+        ) : groups.length === 0 ? (
+          <h1>No group found!</h1>
         ) : (
           groups.reverse().map((item, i) => (
             <Col md={3} key={i}>
@@ -48,6 +51,7 @@ const GroupList = ({ getGroupsAction, groups }) => {
 
 const mapStatetoProps = (state) => ({
   groups: state.group.groups,
+  user: state.auth.user,
 });
 
 export default connect(mapStatetoProps, { getGroupsAction })(GroupList);

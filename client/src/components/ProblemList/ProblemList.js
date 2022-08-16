@@ -7,12 +7,14 @@ import {
   Spinner,
   ListGroup,
   Badge,
+  Card,
 } from "react-bootstrap";
 import { useParams, Link } from "react-router-dom";
 
 import { connect } from "react-redux";
 
 import { getProblemsAllAction } from "../../action/problem.action";
+import { ScrollArea } from "@mantine/core";
 //
 //
 //problem list
@@ -25,19 +27,19 @@ const ProblemList = ({ getProblemsAllAction, problems }) => {
   }, [id]);
 
   return (
-    <Container
+    <Card
       style={{
-        backgroundColor: "#171a0b",
+        backgroundColor: "#2a9d8f",
       }}
     >
-      <h3
+      <Card.Header
         class="text-center mb-5"
         style={{
           color: "#FFFFFF",
         }}
       >
         Problems
-      </h3>
+      </Card.Header>
 
       {problems === null ? (
         <Spinner animation="grow" variant="dark"></Spinner>
@@ -45,47 +47,32 @@ const ProblemList = ({ getProblemsAllAction, problems }) => {
         <h1>No problem found!</h1>
       ) : (
         <ListGroup>
-          {problems.map((item, k) => (
-            <ListGroup.Item key={k}>
-              <div class="card mb-3">
-                <div class="card-body">
-                  <div class="d-flex flex-column flex-lg-row">
-                    <span class="avatar avatar-text rounded-3 me-4 mb-2">
-                      {k}
-                    </span>
-                    <div class="row flex-fill">
-                      <div class="col-sm-5">
-                        <h4 class="h5">
-                          <Link
-                            to={`/problem/single/${id}/${item._id}`}
-                            className="d-block  text-primary pt-2"
-                          >
-                            {item.name}
-                          </Link>
-                        </h4>
-                      </div>
-                      <div class="col-sm-4 py-2">
-                        {item.tag.map((t, i) => (
-                          <span class="badge bg-secondary">{t}</span>
-                        ))}
-                      </div>
-                      <div class="col-sm-3 text-lg-end">
-                        <Link
-                          to={`/problem/single/${id}/${item._id}`}
-                          class="btn btn-primary stretched-link"
-                        >
-                          Enter
-                        </Link>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </ListGroup.Item>
-          ))}
+          <ScrollArea style={{ height: 500 }}>
+            {problems.map((item, k) => (
+              <ListGroup.Item key={k}>
+                <Card>
+                  <Card.Header>
+                    <h4>
+                      <Link
+                        to={`/problem/single/${id}/${item._id}`}
+                        className="d-block  text-primary pt-2"
+                      >
+                        {item.name}
+                      </Link>
+                    </h4>
+                  </Card.Header>
+                  <Card.Footer style={{ background: "#FFFFFF" }}>
+                    {item.tag.map((t, i) => (
+                      <span class="badge bg-secondary">{t}</span>
+                    ))}
+                  </Card.Footer>
+                </Card>
+              </ListGroup.Item>
+            ))}
+          </ScrollArea>
         </ListGroup>
       )}
-    </Container>
+    </Card>
   );
 };
 

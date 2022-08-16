@@ -20,12 +20,12 @@ const Member = require("../../models/Member");
 //@route    GET api/member
 //desc      get all the member of current group.
 //access    private (User authentication required)
-router.get("/", auth, async (req, res) => {
+router.get("/:group_id", auth, async (req, res) => {
   try {
     //'Check if current user is the member of the requested group' section starts
     const isMember = await Member.findOne({
       user_id: req.user.id,
-      group_id: req.body.group_id,
+      group_id: req.params.group_id,
       status: true,
     });
 
@@ -37,14 +37,24 @@ router.get("/", auth, async (req, res) => {
     //'Get all member of the requested group' section starts
     const all_members = await Member.find(
       {
-        group_id: req.body.group_id,
+        group_id: req.params.group_id,
         status: true,
       },
       { user_id: 1, _id: 0 }
     );
     //'Get all member of the requested group' section ends
 
-    return res.json(all_members);
+    let user_ids_array = [];
+
+    all_members.forEach((element) => {
+      user_ids_array.push(element.user_id);
+    });
+
+    const members_res = await User.find(
+      { _id: { $in: user_ids_array } },
+      { _id: 1, name: 1, email: 1 }
+    );
+    return res.json(members_res);
   } catch (err) {
     console.error(err);
     return res.status(500).send("Server Error!");
@@ -101,11 +111,11 @@ router.post("/request", auth, async (req, res) => {
 //@route    GET api/member/request
 //desc      get all the member-requests
 //access    private (user authentication required)
-router.get("/request", auth, async (req, res) => {
+router.get("/request/:group_id", auth, async (req, res) => {
   try {
     //'Check if current user is the admin of the requested group OR if the group exists or not' section starts
     const isValid = await Group.findOne({
-      _id: req.body.group_id,
+      _id: req.params.group_id,
       admin: req.user.id,
     });
     //'Check if current user is the admin of the requested group OR if the group exists or not' section ends
@@ -116,14 +126,23 @@ router.get("/request", auth, async (req, res) => {
     //'Get all member-requests of the requested group' section starts
     const all_member_requests = await Member.find(
       {
-        group_id: req.body.group_id,
+        group_id: req.params.group_id,
         status: false,
       },
       { user_id: 1, _id: 0 }
     );
     //'Get all member-request of the requested group' section ends
+    let user_ids_array = [];
 
-    return res.json(all_member_requests);
+    all_member_requests.forEach((element) => {
+      user_ids_array.push(element.user_id);
+    });
+
+    const members_res = await User.find(
+      { _id: { $in: user_ids_array } },
+      { _id: 1, name: 1, email: 1 }
+    );
+    return res.json(members_res);
   } catch (err) {
     console.error(err);
     return res.status(500).send("Server Error!");
@@ -133,7 +152,7 @@ router.get("/request", auth, async (req, res) => {
 //@route    PUT api/member/request
 //desc      accept a member-request ( by the admin )
 //access    private (user authentication required)
-router.put("/request", auth, async (req, res) => {
+router.post("/request/accept", auth, async (req, res) => {
   try {
     //'Check if the given member has actually sent request to the given group or not' section starts
     const isRequested = await Member.findOne({
