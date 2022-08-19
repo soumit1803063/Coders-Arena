@@ -51,7 +51,7 @@ const ShowMemberRequest = ({
           {member_requests === null ? (
             <Spinner animation="grow" variant="dark"></Spinner>
           ) : member_requests.length === 0 ? (
-            <h5></h5>
+            <h5>No member Request</h5>
           ) : (
             <ListGroup>
               <ScrollArea style={{ height: 200 }}>

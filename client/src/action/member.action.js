@@ -9,7 +9,6 @@ import {
 import { baseUrl } from "../constant/url";
 //sendRequestAction
 export const sendRequestAction = (group_id) => async (dispatch) => {
-  console.log("group id:", group_id);
   try {
     const config = {
       headers: {
@@ -23,7 +22,6 @@ export const sendRequestAction = (group_id) => async (dispatch) => {
     );
     dispatch({
       type: SEND_REQUEST,
-      payload: res.data,
     });
     toast.success("success");
 

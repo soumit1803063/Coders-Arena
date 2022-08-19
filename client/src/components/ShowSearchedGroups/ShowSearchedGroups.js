@@ -16,8 +16,10 @@ const ShowSearchedGroups = ({
     if (groupName) {
       ShowsearchGroupAction(groupName);
     }
-  }, [groupName]);
-
+  }, []);
+  const handleClick = (event, group_id) => {
+    sendRequestAction(group_id);
+  };
   return (
     <div>
       <Card>
@@ -43,7 +45,7 @@ const ShowSearchedGroups = ({
                         <Card.Text>{item.description}</Card.Text>
                         <Button
                           variant="primary"
-                          onClick={() => sendRequestAction(item._id)}
+                          onClick={(event) => handleClick(event, item._id)}
                         >
                           Request
                         </Button>
