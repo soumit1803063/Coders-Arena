@@ -30,6 +30,7 @@ router.get("/search/:group_name", auth, async (req, res) => {
     const groups = await Group.find({
       name: { $regex: search_name, $options: "i" },
     });
+    console.log(groups);
     res.json(groups);
   } catch (err) {
     console.error(err);

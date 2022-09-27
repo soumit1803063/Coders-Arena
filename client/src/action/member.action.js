@@ -2,6 +2,7 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import {
   ACCEPT_REQUEST,
+  DELETE_REQUEST,
   GET_MEMBERS,
   GET_MEMBER_REQUESTS,
   SEND_REQUEST,
@@ -84,6 +85,34 @@ export const acceptMemberRequest = (group_id, user_id) => async (dispatch) => {
     });
     dispatch(ShowMemberAction(group_id));
     dispatch(ShowMemberRequestAction(group_id));
+
+    return true;
+  } catch (error) {
+    error.response.data?.errors.map(({ msg }) => toast.error(msg));
+    console.log(error);
+    return false;
+  }
+};
+//rejectMemberRequest action
+export const rejectMemberRequest = (group_id, user_id) => async (dispatch) => {
+  try {
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    };
+    const res = await axios.post(
+      `${baseUrl}/api/member/remove`,
+      JSON.stringify({ group_id, user_id }),
+      config
+    );
+    dispatch({
+      type: DELETE_REQUEST,
+    });
+
+    dispatch(ShowMemberAction(group_id));
+    dispatch(ShowMemberRequestAction(group_id));
+    toast.error(res.msg);
 
     return true;
   } catch (error) {

@@ -17,6 +17,7 @@ import { connect } from "react-redux";
 import {
   ShowMemberRequestAction,
   acceptMemberRequest,
+  rejectMemberRequest,
 } from "../../action/member.action";
 import { baseUrl } from "../../constant/url";
 import moment from "moment";
@@ -28,6 +29,7 @@ const ShowMemberRequest = ({
   ShowMemberRequestAction,
   member_requests,
   acceptMemberRequest,
+  rejectMemberRequest,
 }) => {
   const { id } = useParams();
   useEffect(() => {
@@ -38,8 +40,11 @@ const ShowMemberRequest = ({
 
   //
   //
-  const handleClick = (event, user_id) => {
+  const acceptMember = (event, user_id) => {
     acceptMemberRequest(id, user_id);
+  };
+  const rejectMember = (event, user_id) => {
+    rejectMemberRequest(id, user_id);
   };
   return (
     <div>
@@ -69,9 +74,14 @@ const ShowMemberRequest = ({
                         </Card.Text>
                         <Card.Footer>
                           <Button
-                            onClick={(event) => handleClick(event, item._id)}
+                            onClick={(event) => acceptMember(event, item._id)}
                           >
                             Accept
+                          </Button>{" "}
+                          <Button
+                            onClick={(event) => rejectMember(event, item._id)}
+                          >
+                            Reject
                           </Button>
                         </Card.Footer>
                       </Card>
@@ -94,4 +104,5 @@ const mapStatetoProps = (state) => ({
 export default connect(mapStatetoProps, {
   ShowMemberRequestAction,
   acceptMemberRequest,
+  rejectMemberRequest,
 })(ShowMemberRequest);

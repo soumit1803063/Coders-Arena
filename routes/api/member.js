@@ -149,7 +149,7 @@ router.get("/request/:group_id", auth, async (req, res) => {
   }
 });
 
-//@route    PUT api/member/request
+//@route    POST api/member/request
 //desc      accept a member-request ( by the admin )
 //access    private (user authentication required)
 router.post("/request/accept", auth, async (req, res) => {
@@ -193,7 +193,7 @@ router.post("/request/accept", auth, async (req, res) => {
 //@route    DELETE api/member
 //desc      delete a member ( by the admin )
 //access    private (user authentication required)
-router.delete("/", auth, async (req, res) => {
+router.post("/remove", auth, async (req, res) => {
   try {
     //'Check if current user is the admin of the requested group OR if the group exists or not' section starts
     const isValid = await Group.findOne({
@@ -202,7 +202,7 @@ router.delete("/", auth, async (req, res) => {
     });
     //'Check if current user is the admin of the requested group OR if the group exists or not' section ends
     if (!isValid) {
-      return res.status(400).json({ msg: "Access denied to this group." });
+      return res.status(400).json({ msg: "You can't remove a member." });
     }
 
     //'Delete a member' section starts

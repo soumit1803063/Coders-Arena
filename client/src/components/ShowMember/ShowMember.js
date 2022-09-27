@@ -8,19 +8,23 @@ import {
   ListGroup,
   Badge,
   Card,
+  Button,
 } from "react-bootstrap";
 import { useParams, Link } from "react-router-dom";
 import { ScrollArea, Title } from "@mantine/core";
 import { connect } from "react-redux";
 
-import { ShowMemberAction } from "../../action/member.action";
+import {
+  ShowMemberAction,
+  rejectMemberRequest,
+} from "../../action/member.action";
 import { baseUrl } from "../../constant/url";
 import moment from "moment";
 import Moment from "react-moment";
 //
 //
 //
-const ShowMember = ({ ShowMemberAction, members }) => {
+const ShowMember = ({ ShowMemberAction, rejectMemberRequest, members }) => {
   const { id } = useParams();
   useEffect(() => {
     if (id) {
@@ -30,7 +34,9 @@ const ShowMember = ({ ShowMemberAction, members }) => {
 
   //
   //
-
+  const rejectMember = (event, user_id) => {
+    rejectMemberRequest(id, user_id);
+  };
   return (
     <div>
       <Card>
@@ -44,7 +50,7 @@ const ShowMember = ({ ShowMemberAction, members }) => {
             <h5></h5>
           ) : (
             <ListGroup>
-              <ScrollArea style={{ height: 200 }}>
+              <ScrollArea style={{ height: 300 }}>
                 <div>
                   {members.map((item, k) => (
                     <ListGroup.Item key={k}>
@@ -57,6 +63,11 @@ const ShowMember = ({ ShowMemberAction, members }) => {
                         <Card.Text>
                           <i>{item.email}</i>
                         </Card.Text>
+                        <Button
+                          onClick={(event) => rejectMember(event, item._id)}
+                        >
+                          Remove
+                        </Button>
                       </Card>
                     </ListGroup.Item>
                   ))}
@@ -74,4 +85,7 @@ const mapStatetoProps = (state) => ({
   members: state.member.members,
 });
 
-export default connect(mapStatetoProps, { ShowMemberAction })(ShowMember);
+export default connect(mapStatetoProps, {
+  ShowMemberAction,
+  rejectMemberRequest,
+})(ShowMember);
